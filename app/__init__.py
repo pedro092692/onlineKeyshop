@@ -9,8 +9,8 @@ def create_app(config_class=Config):
 
     # register blueprints here
 
-    @app.route('/')
-    def home():
+    @app.route('/test')
+    def test():
         return 'Welcome pedro..'
 
     return app
