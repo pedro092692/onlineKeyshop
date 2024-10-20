@@ -9,4 +9,9 @@
 {% block content %}
     <h2>This is the index for posts content :| </h2>
     <a href="{{ url_for('main.home') }}">This is a link for app index</a>
+    <h1>Here all post in the database</h1>
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+    {% endfor %}
 {% endblock content %}
