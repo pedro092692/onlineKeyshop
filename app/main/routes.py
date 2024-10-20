@@ -1,8 +1,10 @@
+from flask import render_template
+
 from app.main import bp
 
 @bp.route('/')
 def home():
-    return 'this is the main blueprint'
+    return render_template('index.html')
 
 @bp.route('/pedro')
 def pedro():

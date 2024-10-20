@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+<!--title-->
+{% block title %}
+    Home
+{% endblock title %}
+
+<!--content-->
+    {% block content %}
+        <h1>Welcome to the app :)</h1>
+        <a href="{{ url_for('main.pedro') }}">This is a link changed</a>
+    {% endblock content %}.
