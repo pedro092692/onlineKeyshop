@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+<!--title-->
+{% block title %}
+    Welcome admin
+{% endblock %}
+
+<!--content-->
+{% block content %}
+    <h2>This is the index only for admins </h2>
+    <a href="{{ url_for('main.home') }}">This is a link for app index</a>
+    <a href="{{ url_for('admin.products') }}">This is a link for manage products</a>
+{% endblock content %}
