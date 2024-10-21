@@ -13,4 +13,13 @@
         <a href="{{ url_for('posts.index') }}">This link is for posts</a>
         <a href="{{ url_for('posts.categories') }}">This link is for posts categories</a>
 
+        <h2>Example of the form</h2>
+
+        <form action="">
+            {{ form.csfr_token }}
+            {{ form.email }}
+            {{ form.password }}
+            {{ form.submit }}
+        </form>
+
     {% endblock content %}.

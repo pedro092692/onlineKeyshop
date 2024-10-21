@@ -2,6 +2,7 @@ from flask import Flask
 from config import Config
 from app.extensions import db
 from app.database import DataBase
+from app.extensions import CSRFProtect
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -10,6 +11,9 @@ def create_app(config_class=Config):
     # flask extensions here
     app_db = DataBase(db, app)
     app_db.create_tables()
+
+    #csrf
+    CSRFProtect(app)
 
     # register blueprints here
     from app.main import bp as main_bp
