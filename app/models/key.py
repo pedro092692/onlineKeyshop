@@ -1,5 +1,4 @@
 from sqlalchemy import Float
-
 from app.extensions import *
 
 class Key(db.Model):
@@ -8,6 +7,7 @@ class Key(db.Model):
     key_value: Mapped[str] = mapped_column(String(250), nullable=False)
     delivered: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     price: Mapped[float] = mapped_column(Float, nullable=False)
+
 
     def __repr__(self):
         return f'<Key "{self.key_value}">'

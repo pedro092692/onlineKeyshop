@@ -30,6 +30,9 @@ def create_app(config_class=Config):
     from app.admin import bp as admin_bp
     app.register_blueprint(admin_bp, url_prefix='/admin')
 
+    from app.products import bp as product_bp
+    app.register_blueprint(product_bp, url_prefix='/products')
+
     @app.route('/test')
     def test():
         return 'Welcome pedro..'
