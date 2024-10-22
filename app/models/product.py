@@ -1,3 +1,5 @@
+from sqlalchemy.orm import relationship
+
 from app.extensions import *
 
 class Product(db.Model):
@@ -8,3 +10,4 @@ class Product(db.Model):
     name: Mapped[str] = mapped_column(String(150), nullable=False)
     platform_id: Mapped[int] = mapped_column(Integer, ForeignKey("platforms.id"))
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"))
+    keys: Mapped[List["ProductKeys"]] = relationship(back_populates="product_info", cascade="all, delete")

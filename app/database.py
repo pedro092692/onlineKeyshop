@@ -5,6 +5,7 @@ from app.models.key import Key
 from app.models.category import Category
 from app.models.product import Product
 from app.models.sub_category import SubCategory
+from app.models.product_keys import ProductKeys
 
 class DataBase:
 
