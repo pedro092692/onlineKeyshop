@@ -1,4 +1,6 @@
 from flask import Flask
+from flask_migrate import Migrate
+
 from config import Config
 from app.extensions import db
 from app.database import DataBase
@@ -11,6 +13,9 @@ def create_app(config_class=Config):
     # flask extensions here
     app_db = DataBase(db, app)
     app_db.create_tables()
+
+    # flask migrate
+    migrate = Migrate(app, db)
 
     #csrf
     CSRFProtect(app)
