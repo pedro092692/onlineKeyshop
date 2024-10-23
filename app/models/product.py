@@ -1,9 +1,5 @@
 from sqlalchemy.orm import relationship
 from app.extensions import *
-from app.models.category import Category
-from app.models.platforms import Platform
-from app.models.product_keys import ProductKeys
-from app.models.sub_category import SubCategory
 
 
 class Product(db.Model):
@@ -17,10 +13,35 @@ class Product(db.Model):
     sub_category_id: Mapped[int] = mapped_column(Integer, ForeignKey("sub_categories.id", ondelete="CASCADE"))
     product_keys: Mapped[List["ProductKeys"]] = relationship(back_populates="product_info")
     category: Mapped["Category"] = relationship()
-    sub_category: Mapped["SubCategory"] = relationship()
-    platform: Mapped["Platform"] = relationship()
+    sub_category: Mapped["SubCategory"] = relationship(back_populates="products")
+    platform: Mapped["Platform"] = relationship(back_populates="products")
 
     @staticmethod
     def get_products():
         all_products = db.session.execute(db.select(Product).order_by(Product.name)).scalars().all()
         return all_products
+
+    @staticmethod
+    def latest_products():
+        latest_product = (
+            db.session.query(Product)
+            .filter_by(category_id=1)
+            .join(Product.product_keys)
+            .order_by(Product.id.desc())
+            .limit(5)
+            .all()
+        )
+        return latest_product
+
+    @staticmethod
+    def get_latest_gift_cards():
+        latest_gift_cards = (
+            db.session.query(Product)
+            .filter(Product.category_id == 2)
+            .join(Product.product_keys)
+            .order_by(Product.id.desc())
+            .limit(5)
+            .all()
+        )
+        return latest_gift_cards
+

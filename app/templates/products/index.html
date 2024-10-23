@@ -5,9 +5,9 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>All products</h1>
+    <h2>latest games</h2>
     <ul>
-        {% for product in products %}
+        {% for product in last_products %}
             <li>
                 {{ product.name }} - {{ product.platform.name }} - {{ product.sub_category.name }}
                 <ul>
@@ -20,4 +20,46 @@
             </li>
         {% endfor %}
     </ul>
+
+    <h2>latest gift cards</h2>
+
+    <ul>
+        {% for product in latest_gift_cards %}
+            <li>
+                {{ product.name }} - {{ product.platform.name }} - {{ product.sub_category.name }}
+                <ul>
+                    {% for info in product.product_keys %}
+                        <li>
+                            {{ info.key_info.price }}
+                        </li>
+                    {% endfor  %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+<h2>Platforms</h2>
+
+    <ul>
+        {% for platform in platforms %}
+            {{ platform.name }}
+        {% endfor %}
+    </ul>
+
+<h2>Categories</h2>
+
+    <ul>
+        {% for category in categories %}
+            {{ category.name }} -
+        {% endfor %}
+    </ul>
+
+<h2>Sub-Categories</h2>
+
+    <ul>
+        {% for sub_category in subcategories %}
+            {{ sub_category.name }} -
+        {% endfor %}
+    </ul>
+
 {% endblock content %}
