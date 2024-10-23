@@ -1,7 +1,7 @@
 from flask import render_template
 from app.forms.login import LoginForm
 
-from app.main import bp
+from app.blueprints.main import bp
 
 @bp.route('/')
 def home():

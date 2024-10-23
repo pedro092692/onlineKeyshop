@@ -1,5 +1,5 @@
 from flask import render_template
-from app.products import bp
+from app.blueprints.products import bp
 from app.models.product import Product
 
 @bp.route('/')

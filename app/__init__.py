@@ -21,16 +21,16 @@ def create_app(config_class=Config):
     CSRFProtect(app)
 
     # register blueprints here
-    from app.main import bp as main_bp
+    from app.blueprints.main import bp as main_bp
     app.register_blueprint(main_bp)
 
-    from app.posts import bp as posts_bp
+    from app.blueprints.posts import bp as posts_bp
     app.register_blueprint(posts_bp, url_prefix='/posts')
 
-    from app.admin import bp as admin_bp
+    from app.blueprints.admin import bp as admin_bp
     app.register_blueprint(admin_bp, url_prefix='/admin')
 
-    from app.products import bp as product_bp
+    from app.blueprints.products import bp as product_bp
     app.register_blueprint(product_bp, url_prefix='/products')
 
     @app.route('/test')
