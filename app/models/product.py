@@ -12,9 +12,9 @@ class Product(db.Model):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(150), nullable=False)
-    platform_id: Mapped[int] = mapped_column(Integer, ForeignKey("platforms.id"))
-    category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"))
-    sub_category_id: Mapped[int] = mapped_column(Integer, ForeignKey("sub_categories.id"))
+    platform_id: Mapped[int] = mapped_column(Integer, ForeignKey("platforms.id", ondelete="CASCADE"))
+    category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id", ondelete="CASCADE"))
+    sub_category_id: Mapped[int] = mapped_column(Integer, ForeignKey("sub_categories.id", ondelete="CASCADE"))
     product_keys: Mapped[List["ProductKeys"]] = relationship(back_populates="product_info")
     category: Mapped["Category"] = relationship()
     sub_category: Mapped["SubCategory"] = relationship()
