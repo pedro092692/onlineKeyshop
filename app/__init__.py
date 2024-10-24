@@ -22,7 +22,7 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     @login_manager.user_loader
     def load_user(user_id):
-        return User.get(user_id)
+        return User.get_user_id(user_id)
 
     #csrf
     CSRFProtect(app)
@@ -39,6 +39,9 @@ def create_app(config_class=Config):
 
     from app.blueprints.products import bp as product_bp
     app.register_blueprint(product_bp, url_prefix='/products')
+
+    from app.blueprints.security import bp as security_bp
+    app.register_blueprint(security_bp)
 
     @app.route('/test')
     def test():
