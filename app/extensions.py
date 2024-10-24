@@ -7,6 +7,8 @@ from flask_migrate import Migrate
 from sqlalchemy import exists
 from flask_login import LoginManager, UserMixin, current_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+load_dotenv()

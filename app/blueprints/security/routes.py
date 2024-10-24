@@ -13,11 +13,10 @@ def login():
         password = login_form.password.data
 
         user = User.find_user(email=email)
-        if user:
+        if user and check_password_hash(user.password, password):
             # login and check password
-            if check_password_hash(user.password, password):
-                login_user(user)
-                return redirect(url_for('main.home'))
+            login_user(user)
+            return redirect(url_for('main.home'))
         else:
             print('Invalid Password or user')
 
@@ -35,7 +34,8 @@ def register():
         if not user:
             User.add_new_user(
                 username=email,
-                password=generate_password_hash(password=password, method='pbkdf2:sha256', salt_length=8)
+                password=generate_password_hash(password=password, method='pbkdf2:sha256', salt_length=8),
+                role='user'
             )
             return redirect(url_for('security.login'))
         else:

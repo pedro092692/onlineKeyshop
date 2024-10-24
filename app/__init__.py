@@ -12,6 +12,7 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     # flask extensions here
+
     app_db = DataBase(db, app)
     app_db.create_tables()
 

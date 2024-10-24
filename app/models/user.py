@@ -6,6 +6,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100))
     password = db.Column(db.String)
+    role = db.Column(db.String)
 
     def __repr__(self):
         return f'<User "{self.username}">'
@@ -17,16 +18,16 @@ class User(db.Model, UserMixin):
         return user
 
     @staticmethod
-    def add_new_user(username, password):
+    def add_new_user(username, password, role):
         new_user = User(
             username=username,
-            password=password
+            password=password,
+            role=role
         )
         db.session.add(new_user)
         db.session.commit()
 
     @staticmethod
     def get_user_id(user_id):
-        user = db.get_or_404(User, user_id)
+        user = db.session.execute(db.select(User).filter(User.id == user_id)).scalar()
         return user
-
