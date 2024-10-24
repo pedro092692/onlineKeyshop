@@ -1,10 +1,11 @@
 from flask import Flask
 from flask_migrate import Migrate
-
 from config import Config
 from app.extensions import db
 from app.database import DataBase
 from app.extensions import CSRFProtect
+from app.extensions import login_manager
+from app.models.user import User
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -16,6 +17,12 @@ def create_app(config_class=Config):
 
     # flask migrate
     migrate = Migrate(app, db)
+
+    # login_manager
+    login_manager.init_app(app)
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.get(user_id)
 
     #csrf
     CSRFProtect(app)
