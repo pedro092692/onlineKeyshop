@@ -1,11 +1,13 @@
 from flask import Blueprint, abort
-from app.extensions import current_user
+from app.extensions import current_user, login_required
 
 bp = Blueprint('admin', __name__)
 
 @bp.before_request
-def check_login():
-    if not current_user.is_authenticated:
+@login_required
+def check_admin():
+    if current_user.role != 'admin':
         return abort(403)
+
 
 from app.blueprints.admin import routes

@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from app.blueprints.security import bp
 from app.forms.login import LoginForm
 from app.forms.register import RegisterForm
@@ -16,7 +16,8 @@ def login():
         if user and check_password_hash(user.password, password):
             # login and check password
             login_user(user)
-            return redirect(url_for('main.home'))
+            next_url = request.args.get('next')
+            return redirect(next_url or url_for('main.home'))
         else:
             print('Invalid Password or user')
 
