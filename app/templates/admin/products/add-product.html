@@ -1,0 +1,43 @@
+ {% extends 'admin/base.html' %}
+
+ {% block title %}
+    Add Product
+ {% endblock title %}
+
+<!--header_name-->
+{% block header_name %}
+    Add Products
+{% endblock header_name %}
+
+
+<!-- content-->
+ {% block content %}
+    <div class="card">
+        <form>
+            <div class="card-body">
+                    {% for field_name, field in form._fields.items() %}
+                        {% if field_name != 'csrf_token' and field_name != 'submit' %}
+                            <div class="form-group">
+                                <label for="{{ field.id }}">{{ field.label }}</label>
+                                {% if field.type == 'SelectField' %}
+                                        <div class="row">
+                                            <div class="col-8 col-md-10">
+                                                {{ field(class_="form-control") }}
+                                            </div>
+                                            <div class="col-4 col-md-2">
+                                                <a href="" class="btn btn-primary">Add new</a>
+                                            </div>
+                                        </div>
+                                {% else %}
+                                    {{ field(class_="form-control") }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+            </div>
+            <div class="card-footer">
+              {{ form.submit(class_="btn btn-primary") }}
+            </div>
+        </form>
+     </div>
+ {% endblock content %}
