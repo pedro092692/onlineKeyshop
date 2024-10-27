@@ -1,4 +1,3 @@
-from Tools.scripts.make_ctype import method
 from flask import render_template, redirect, url_for
 from app.forms.login import LoginForm
 from app.extensions import logout_user

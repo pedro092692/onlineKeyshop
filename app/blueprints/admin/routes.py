@@ -1,11 +1,15 @@
 from flask import render_template
 from app.forms.admin.add_products import AddProduct
+from app.models.product import Product
 from app.blueprints.admin import bp
+
 
 
 @bp.route('/')
 def index():
     return render_template('admin/index.html')
+
+# products
 
 @bp.route('/products')
 def products():
@@ -15,3 +19,9 @@ def products():
 def add_product():
     form = AddProduct()
     return render_template('admin/products/add-product.html', form=form)
+
+
+# categories
+@bp.route('/categories')
+def categories():
+    return render_template('admin/categories/index.html')

@@ -1,0 +1,29 @@
+{% extends 'admin/base.html' %}
+
+<!--title-->
+{% block title %}
+{% endblock %}
+
+<!--header_name-->
+{% block header_name %}
+{% endblock header_name %}
+
+
+<!--content-->
+{% block content %}
+    <!--table products-->
+    {% block table_content %}
+    {% endblock table_content %}
+
+    <!--add new product-->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <a href="{{ url_for('admin.add_product') }}" class="btn btn-primary">Add New
+                    {% block category_name %}
+                    {% endblock category_name %}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
