@@ -26,6 +26,11 @@ class Category(db.Model):
         )
         return categories
 
+    @staticmethod
+    def categories():
+        categories = db.session.execute(db.select(Category).order_by(Category.id.asc())).scalars().all()
+        return categories
+
 
     @staticmethod
     def add_category(model, *args):

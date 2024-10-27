@@ -25,7 +25,8 @@
                                                 {{ field(class_="form-control") }}
                                             </div>
                                             <div class="col-4 col-md-2">
-                                                <a href="" class="btn btn-primary">Add new</a>
+                                                <a href="{{ url_for('admin.add_category') }}"
+                                                   class="btn btn-primary">Add new</a>
                                             </div>
                                         </div>
                                 {% else %}

@@ -46,6 +46,9 @@ def subcategories():
 @bp.route('/add-subcategory')
 def add_subcategory():
     form = SubcategoryForm()
+    categories_ = Category.categories()
+    form.category_id.choices = [(category.id, category.name) for category in categories_]
+
     return render_template('admin/subcategories/add-subcategory.html', form=form)
 
 #platforms
