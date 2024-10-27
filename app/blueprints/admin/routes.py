@@ -12,7 +12,6 @@ def index():
     return render_template('admin/index.html')
 
 # products
-
 @bp.route('/products')
 def products():
     return render_template('admin/products/index.html')
@@ -37,3 +36,20 @@ def add_category():
         Category.add_category(Category, category_name)
         return redirect(url_for('admin.categories'))
     return render_template('admin/categories/add-category.html', form=form)
+
+
+#subcategories
+@bp.route('/subcategories')
+def subcategories():
+    return render_template('admin/subcategories/index.html')
+
+#platforms
+@bp.route('/platforms')
+def platforms():
+    return render_template('admin/platforms/index.html')
+
+#keys
+@bp.route('/keys')
+def keys():
+    return render_template('admin/keys/index.html')
+
