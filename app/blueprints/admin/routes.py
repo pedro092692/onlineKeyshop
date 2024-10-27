@@ -1,3 +1,5 @@
+from sys import platform
+
 from flask import render_template, redirect, url_for
 from app.forms.admin.add_products import AddProduct
 from app.forms.admin.add_category_form import AddCategory as SimpleForm
@@ -62,8 +64,8 @@ def add_product():
 # categories
 @bp.route('/categories')
 def categories():
-    # Category.add_category_form.py('playstore')
-    return render_template('admin/categories/index.html')
+    all_categories = Category.categories()
+    return render_template('admin/categories/index.html', categories=all_categories)
 
 @bp.route('/add-category', methods=['GET', 'POST'])
 def add_category():
@@ -78,7 +80,8 @@ def add_category():
 #subcategories
 @bp.route('/subcategories')
 def subcategories():
-    return render_template('admin/subcategories/index.html')
+    all_subcategories = SubCategory.subcategories()
+    return render_template('admin/subcategories/index.html', subcategories=all_subcategories)
 
 @bp.route('/add-subcategory', methods=['GET', 'POST'])
 def add_subcategory():
@@ -97,8 +100,8 @@ def add_subcategory():
 #platforms
 @bp.route('/platforms')
 def platforms():
-    form = SimpleForm()
-    return render_template('admin/platforms/index.html', form=form)
+    all_platforms = Platform.platforms()
+    return render_template('admin/platforms/index.html', platforms=all_platforms)
 
 @bp.route('/add-platform', methods=['GET', 'POST'])
 def add_platform():
