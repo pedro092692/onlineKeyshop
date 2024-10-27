@@ -1,6 +1,7 @@
 from flask import render_template, redirect, url_for
 from app.forms.admin.add_products import AddProduct
 from app.forms.admin.add_category_form import AddCategory as SimpleForm
+from app.forms.admin.add_subcategory_form import SubcategoryForm
 from app.models.category import Category
 from app.blueprints.admin import bp
 
@@ -42,9 +43,10 @@ def add_category():
 def subcategories():
     return render_template('admin/subcategories/index.html')
 
-@bp.route('/add-subcategories')
+@bp.route('/add-subcategory')
 def add_subcategory():
-    return render_template('admin/subcategories/add-subcategory.html')
+    form = SubcategoryForm()
+    return render_template('admin/subcategories/add-subcategory.html', form=form)
 
 #platforms
 @bp.route('/platforms')
