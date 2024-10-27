@@ -2,6 +2,7 @@ from sqlalchemy.orm import relationship
 from app.extensions import *
 from app.models.product import Product
 from app.models.product_keys import ProductKeys
+from app.models.helpers import add_item
 
 
 class Platform(db.Model):
@@ -27,3 +28,7 @@ class Platform(db.Model):
             .all()
         )
         return platforms
+
+    @staticmethod
+    def add_platform(model, *args):
+        return add_item(model, *args)

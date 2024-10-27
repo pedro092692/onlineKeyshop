@@ -4,6 +4,7 @@ from app.forms.admin.add_category_form import AddCategory as SimpleForm
 from app.forms.admin.add_subcategory_form import SubcategoryForm
 from app.models.category import Category
 from app.models.sub_category import SubCategory
+from app.models.platforms import Platform
 from app.blueprints.admin import bp
 
 
@@ -64,9 +65,19 @@ def platforms():
     form = SimpleForm()
     return render_template('admin/platforms/index.html', form=form)
 
-@bp.route('/add-platform')
+@bp.route('/add-platform', methods=['GET', 'POST'])
 def add_platform():
-    return render_template('admin/platforms/add-platform.html')
+    form = SimpleForm()
+    # config form
+    form.name.label = 'Platform Name'
+    form.submit.label.text = 'Add Platform'
+
+    if form.validate_on_submit():
+        platform_name = form.name.data
+        Platform.add_platform(Platform, platform_name)
+        return redirect(url_for('admin.platforms'))
+
+    return render_template('admin/platforms/add-platform.html', form=form)
 
 #keys
 @bp.route('/keys')
