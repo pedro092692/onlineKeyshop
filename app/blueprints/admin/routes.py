@@ -20,7 +20,8 @@ def index():
 # products
 @bp.route('/products')
 def products():
-    return render_template('admin/products/index.html')
+    all_products = Product.get_products()
+    return render_template('admin/products/index.html', products=all_products)
 
 @bp.route('/add-product', methods=['GET', 'POST'])
 def add_product():
