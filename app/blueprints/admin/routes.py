@@ -1,7 +1,6 @@
 from flask import render_template, redirect, url_for
 from app.forms.admin.add_products import AddProduct
-from app.forms.admin.add_category_form import AddCategory
-from app.models.product import Product
+from app.forms.admin.add_category_form import AddCategory as SimpleForm
 from app.models.category import Category
 from app.blueprints.admin import bp
 
@@ -30,7 +29,7 @@ def categories():
 
 @bp.route('/add-category', methods=['GET', 'POST'])
 def add_category():
-    form = AddCategory()
+    form = SimpleForm()
     if form.validate_on_submit():
         category_name = form.name.data
         Category.add_category(Category, category_name)
@@ -43,13 +42,25 @@ def add_category():
 def subcategories():
     return render_template('admin/subcategories/index.html')
 
+@bp.route('/add-subcategories')
+def add_subcategory():
+    return render_template('admin/subcategories/add-subcategory.html')
+
 #platforms
 @bp.route('/platforms')
 def platforms():
-    return render_template('admin/platforms/index.html')
+    form = SimpleForm()
+    return render_template('admin/platforms/index.html', form=form)
+
+@bp.route('/add-platform')
+def add_platform():
+    return render_template('admin/platforms/add-platform.html')
 
 #keys
 @bp.route('/keys')
 def keys():
     return render_template('admin/keys/index.html')
 
+@bp.route('/add-key')
+def add_key():
+    return render_template('admin/keys/add-key.html')
