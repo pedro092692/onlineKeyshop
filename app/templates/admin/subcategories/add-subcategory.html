@@ -13,8 +13,9 @@
 <!-- content-->
  {% block content %}
     <div class="card">
-        <form>
+        <form method="POST">
             <div class="card-body">
+                    {{ form.csrf_token }}
                     {% for field_name, field in form._fields.items() %}
                         {% if field_name != 'csrf_token' and field_name != 'submit' %}
                             <div class="form-group">

@@ -2,6 +2,7 @@ from sqlalchemy.orm import relationship
 from app.extensions import *
 from app.models.product import Product
 from app.models.product_keys import ProductKeys
+from app.models.helpers import add_item
 
 
 class SubCategory(db.Model):
@@ -30,3 +31,7 @@ class SubCategory(db.Model):
         )
 
         return subcategories
+
+    @staticmethod
+    def add_subcategory(model, *args):
+        return add_item(model, *args)

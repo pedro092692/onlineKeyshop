@@ -3,6 +3,7 @@ from app.forms.admin.add_products import AddProduct
 from app.forms.admin.add_category_form import AddCategory as SimpleForm
 from app.forms.admin.add_subcategory_form import SubcategoryForm
 from app.models.category import Category
+from app.models.sub_category import SubCategory
 from app.blueprints.admin import bp
 
 
@@ -43,12 +44,18 @@ def add_category():
 def subcategories():
     return render_template('admin/subcategories/index.html')
 
-@bp.route('/add-subcategory')
+@bp.route('/add-subcategory', methods=['GET', 'POST'])
 def add_subcategory():
     form = SubcategoryForm()
     categories_ = Category.categories()
-    form.category_id.choices = [(category.id, category.name) for category in categories_]
 
+    form.category_id.choices = [(0, 'Select One')] + [(category.id, category.name) for category in categories_]
+    if form.validate_on_submit():
+        subcategory_name = form.name.data
+        category_id = form.category_id.data
+        # add new subcategory
+        SubCategory.add_subcategory(SubCategory, category_id, subcategory_name)
+        return redirect(url_for('admin.subcategories'))
     return render_template('admin/subcategories/add-subcategory.html', form=form)
 
 #platforms
