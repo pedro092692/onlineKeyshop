@@ -1,6 +1,8 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 from app.forms.admin.add_products import AddProduct
+from app.forms.admin.add_category_form import AddCategory
 from app.models.product import Product
+from app.models.category import Category
 from app.blueprints.admin import bp
 
 
@@ -24,4 +26,14 @@ def add_product():
 # categories
 @bp.route('/categories')
 def categories():
+    # Category.add_category_form.py('playstore')
     return render_template('admin/categories/index.html')
+
+@bp.route('/add-category', methods=['GET', 'POST'])
+def add_category():
+    form = AddCategory()
+    if form.validate_on_submit():
+        category_name = form.name.data
+        Category.add_category(Category, category_name)
+        return redirect(url_for('admin.categories'))
+    return render_template('admin/categories/add-category.html', form=form)

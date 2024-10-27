@@ -33,10 +33,10 @@ def register():
 
         user = User.find_user(email=email)
         if not user:
-            User.add_new_user(
-                username=email,
-                password=generate_password_hash(password=password, method='pbkdf2:sha256', salt_length=8),
-                role='user'
+            User.add_new_user(User,
+                email,
+                generate_password_hash(password=password, method='pbkdf2:sha256', salt_length=8),
+                'user'
             )
             return redirect(url_for('security.login'))
         else:

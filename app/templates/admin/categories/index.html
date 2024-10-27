@@ -14,6 +14,6 @@
 
 
 
-{% block category_name %}
-    Category
-{% endblock category_name %}
+{% block add_link %}
+    <a href="{{ url_for('admin.add_category') }}" class="btn btn-primary"> Add New Category </a>
+{% endblock add_link %}

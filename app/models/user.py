@@ -1,5 +1,6 @@
 from app.extensions import db
 from app.extensions import UserMixin
+from app.models.helpers import add_item
 
 class User(db.Model, UserMixin):
     __tablename__ = "users"
@@ -18,14 +19,8 @@ class User(db.Model, UserMixin):
         return user
 
     @staticmethod
-    def add_new_user(username, password, role):
-        new_user = User(
-            username=username,
-            password=password,
-            role=role
-        )
-        db.session.add(new_user)
-        db.session.commit()
+    def add_new_user(model, *args):
+        return add_item(model, *args)
 
     @staticmethod
     def get_user_id(user_id):

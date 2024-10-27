@@ -16,6 +16,6 @@
 {% endblock table_content %}
 
 
-{% block category_name %}
-    Product
-{% endblock category_name %}
+{% block add_link %}
+<a href="{{ url_for('admin.add_product') }}" class="btn btn-primary"> Add New Product </a>
+{% endblock add_link %}

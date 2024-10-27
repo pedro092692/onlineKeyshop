@@ -1,0 +1,33 @@
+ {% extends 'admin/base.html' %}
+
+ {% block title %}
+    Add Category
+ {% endblock title %}
+
+<!--header_name-->
+{% block header_name %}
+    Add Category
+{% endblock header_name %}
+
+
+<!-- content-->
+ {% block content %}
+    <div class="card">
+        <form method="POST">
+            <div class="card-body">
+                    {{ form.csrf_token }}
+                    {% for field_name, field in form._fields.items() %}
+                        {% if field_name != 'csrf_token' and field_name != 'submit' %}
+                            <div class="form-group">
+                                <label for="{{ field.id }}">{{ field.label }}</label>
+                                    {{ field(class_="form-control") }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+            </div>
+            <div class="card-footer">
+              {{ form.submit(class_="btn btn-primary") }}
+            </div>
+        </form>
+     </div>
+ {% endblock content %}
