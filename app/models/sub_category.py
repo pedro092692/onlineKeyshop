@@ -35,3 +35,9 @@ class SubCategory(db.Model):
     @staticmethod
     def add_subcategory(model, *args):
         return add_item(model, *args)
+
+    @staticmethod
+    def subcategories():
+        all_subcategories = db.session.execute(db.select(SubCategory).order_by(SubCategory.id.asc())).scalars().all()
+        return all_subcategories
+

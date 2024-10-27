@@ -1,5 +1,6 @@
 from sqlalchemy.orm import relationship
 from app.extensions import *
+from app.models.helpers import add_item
 
 
 class Product(db.Model):
@@ -46,8 +47,6 @@ class Product(db.Model):
         return latest_gift_cards
 
     @staticmethod
-    def add_product(product_name, ):
-        print('this is the test:')
-        for column in Product.__table__.columns:
-            print(type(column))
+    def add_product(model, *args):
+        return add_item(model, *args)
 

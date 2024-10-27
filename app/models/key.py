@@ -1,4 +1,5 @@
 from sqlalchemy import Float
+from app.models.helpers import add_item
 from app.extensions import *
 
 class Key(db.Model):
@@ -11,3 +12,7 @@ class Key(db.Model):
 
     def __repr__(self):
         return f'<Key "{self.key_value}">'
+
+    @staticmethod
+    def add_key(model, *args):
+        return add_item(model, *args)

@@ -13,8 +13,9 @@
 <!-- content-->
  {% block content %}
     <div class="card">
-        <form>
+        <form method="POST">
             <div class="card-body">
+                    {{ form.csrf_token }}
                     {% for field_name, field in form._fields.items() %}
                         {% if field_name != 'csrf_token' and field_name != 'submit' %}
                             <div class="form-group">
@@ -25,7 +26,8 @@
                                                 {{ field(class_="form-control") }}
                                             </div>
                                             <div class="col-4 col-md-2">
-                                                <a href="" class="btn btn-primary">Add new</a>
+                                                <a href="{{ url_for('admin.add_' + field_name.split('_')[1]) }}"
+                                                   class="btn btn-primary">Add new</a>
                                             </div>
                                         </div>
                                 {% else %}

@@ -5,6 +5,10 @@ from app.forms.admin.add_subcategory_form import SubcategoryForm
 from app.models.category import Category
 from app.models.sub_category import SubCategory
 from app.models.platforms import Platform
+from app.models.product import Product
+from app.models.key import Key
+from app.models.product_keys import ProductKeys
+from app.extensions import generate_password_hash
 from app.blueprints.admin import bp
 
 
@@ -18,9 +22,39 @@ def index():
 def products():
     return render_template('admin/products/index.html')
 
-@bp.route('/add-product')
+@bp.route('/add-product', methods=['GET', 'POST'])
 def add_product():
     form = AddProduct()
+    all_categories = Category.categories()
+    all_subcategories = SubCategory.subcategories()
+    all_platforms = Platform.platforms()
+
+    form.product_category.choices = [(0, 'Select One')] + [(category.id, category.name) for category in all_categories]
+    form.product_subcategory.choices = ([(0, 'Select One')] +
+                                        [(subcategory.id, subcategory.name) for subcategory in all_subcategories])
+    form.product_platform.choices = [(0, 'Select One')] + [(platform.id, platform.name) for platform in all_platforms]
+
+    if form.validate_on_submit():
+        #product infor
+        product_name = form.product_name.data
+        platform_id = form.product_platform.data
+        category_id = form.product_category.data
+        subcategory_id = form.product_subcategory.data
+        #key info
+        product_key =  generate_password_hash(password=form.product_key_code.data, method='pbkdf2:sha256', salt_length=8)
+        product_price = form.product_price.data
+
+        # add new product
+        new_product = Product.add_product(Product, product_name, platform_id, category_id, subcategory_id)
+        # add new key
+        new_key = Key.add_key(Key, product_key, 0, product_price)
+        # add new product key
+        ProductKeys.add_new_product_key(ProductKeys, new_product.id, new_key.id)
+
+        return redirect(url_for('admin.products'))
+
+
+
     return render_template('admin/products/add-product.html', form=form)
 
 

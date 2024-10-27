@@ -10,3 +10,5 @@ def add_item(model, *args):
 
     db.session.add(new_item)
     db.session.commit()
+
+    return new_item

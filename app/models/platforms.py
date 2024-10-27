@@ -32,3 +32,8 @@ class Platform(db.Model):
     @staticmethod
     def add_platform(model, *args):
         return add_item(model, *args)
+
+    @staticmethod
+    def platforms():
+        all_platforms = db.session.execute(db.select(Platform).order_by(Platform.id.asc())).scalars().all()
+        return all_platforms
