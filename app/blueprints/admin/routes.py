@@ -1,7 +1,6 @@
-from sys import platform
-
 from flask import render_template, redirect, url_for
 from app.forms.admin.add_products import AddProduct
+from app.forms.admin.update_product_form import UpdateProduct
 from app.forms.admin.add_category_form import AddCategory as SimpleForm
 from app.forms.admin.add_subcategory_form import SubcategoryForm
 from app.models.category import Category
@@ -12,7 +11,6 @@ from app.models.key import Key
 from app.models.product_keys import ProductKeys
 from app.extensions import generate_password_hash
 from app.blueprints.admin import bp
-
 
 
 @bp.route('/')
@@ -28,14 +26,8 @@ def products():
 @bp.route('/add-product', methods=['GET', 'POST'])
 def add_product():
     form = AddProduct()
-    all_categories = Category.categories()
-    all_subcategories = SubCategory.subcategories()
-    all_platforms = Platform.platforms()
-
-    form.product_category.choices = [(0, 'Select One')] + [(category.id, category.name) for category in all_categories]
-    form.product_subcategory.choices = ([(0, 'Select One')] +
-                                        [(subcategory.id, subcategory.name) for subcategory in all_subcategories])
-    form.product_platform.choices = [(0, 'Select One')] + [(platform.id, platform.name) for platform in all_platforms]
+    # fill dynamic form choices
+    fill_form_product(form)
 
     if form.validate_on_submit():
         #product infor
@@ -60,6 +52,30 @@ def add_product():
 
     return render_template('admin/products/add-product.html', form=form)
 
+@bp.route('/product/<product_id>', methods=['GET', 'POST'])
+def product_info(product_id):
+    product = Product.get_product(product_id)
+    form = UpdateProduct()
+    # fill dynamic form choices
+    fill_form_product(form)
+    if form.validate_on_submit():
+        product_name = form.name.data
+        category_id = form.product_category.data
+        subcategory_id = form.product_subcategory.data
+        platform_id = form.product_platform.data
+        # update product
+        Product.update_product(product, product_name,
+                               category_id,
+                               subcategory_id,
+                               platform_id)
+        return redirect(url_for('admin.products'))
+
+    form.name.data = product.name
+    form.product_category.data = product.category_id
+    form.product_platform.data = product.platform_id
+    form.product_subcategory.data = product.sub_category_id
+
+    return render_template('admin/products/product.html', form=form)
 
 # categories
 @bp.route('/categories')
@@ -75,7 +91,6 @@ def add_category():
         Category.add_category(Category, category_name)
         return redirect(url_for('admin.categories'))
     return render_template('admin/categories/add-category.html', form=form)
-
 
 #subcategories
 @bp.route('/subcategories')
@@ -125,3 +140,14 @@ def keys():
 @bp.route('/add-key')
 def add_key():
     return render_template('admin/keys/add-key.html')
+
+
+def fill_form_product(form):
+    all_categories = Category.categories()
+    all_subcategories = SubCategory.subcategories()
+    all_platforms = Platform.platforms()
+
+    form.product_category.choices = [(0, 'Select One')] + [(category.id, category.name) for category in all_categories]
+    form.product_subcategory.choices = ([(0, 'Select One')] +
+                                        [(subcategory.id, subcategory.name) for subcategory in all_subcategories])
+    form.product_platform.choices = [(0, 'Select One')] + [(platform.id, platform.name) for platform in all_platforms]

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import relationship
 from app.extensions import *
-from app.models.helpers import add_item
+from app.models.helpers import add_item, get_item, update_item
 
 
 class Product(db.Model):
@@ -49,4 +49,13 @@ class Product(db.Model):
     @staticmethod
     def add_product(model, *args):
         return add_item(model, *args)
+
+    @staticmethod
+    def get_product(product_id):
+        return get_item(Product, product_id)
+
+    @staticmethod
+    def update_product(product, *args):
+        return update_item(product, *args)
+
 

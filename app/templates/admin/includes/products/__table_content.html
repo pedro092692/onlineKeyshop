@@ -25,12 +25,13 @@
               </thead>
               <tbody>
                 {% for product in products %}
-                  <tr>
-                      <td>{{ product.name|capitalize }}</td>
-                      <td>{{ product.platform.name|capitalize }}</td>
-                      <td>{{ product.category.name|capitalize }}</td>
-                      <td>{{ product.sub_category.name|capitalize }}</td>
-                  </tr>
+                    <tr>
+                        <td><a class="cursor-pointer text-dark" href="{{ url_for('admin.product_info', product_id=product.id) }}">
+                          {{ product.name|capitalize }}</a></td>
+                        <td>{{ product.platform.name|capitalize }}</td>
+                        <td>{{ product.category.name|capitalize }}</td>
+                        <td>{{ product.sub_category.name|capitalize }}</td>
+                    </tr>
                 {% endfor %}
               </tbody>
             </table>
