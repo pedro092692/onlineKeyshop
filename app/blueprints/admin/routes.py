@@ -89,7 +89,16 @@ def product_info(product_id):
         ProductKeys.add_new_product_key(ProductKeys, product.id, new_key.id)
         return redirect(url_for('admin.products'))
 
-    return render_template('admin/products/product.html', form=form_product, form_key=form_key)
+    return render_template('admin/products/product.html', form=form_product, form_key=form_key,
+                           product=product)
+
+@bp.route('/product/delete/<product_id>', methods=['POST'])
+def delete_product(product_id):
+    product = Product.get_product(product_id)
+    Product.delete_product(product)
+
+    return redirect(url_for('admin.products'))
+
 
 # categories
 @bp.route('/categories')

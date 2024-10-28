@@ -1,6 +1,7 @@
+from sqlalchemy import delete
 from sqlalchemy.orm import relationship
 from app.extensions import *
-from app.models.helpers import add_item, get_item, update_item
+from app.models.helpers import add_item, get_item, update_item, delete_item
 
 
 class Product(db.Model):
@@ -12,7 +13,7 @@ class Product(db.Model):
     platform_id: Mapped[int] = mapped_column(Integer, ForeignKey("platforms.id", ondelete="CASCADE"))
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id", ondelete="CASCADE"))
     sub_category_id: Mapped[int] = mapped_column(Integer, ForeignKey("sub_categories.id", ondelete="CASCADE"))
-    product_keys: Mapped[List["ProductKeys"]] = relationship(back_populates="product_info")
+    product_keys: Mapped[List["ProductKeys"]] = relationship(back_populates="product_info", cascade="all,delete")
     category: Mapped["Category"] = relationship()
     sub_category: Mapped["SubCategory"] = relationship(back_populates="products")
     platform: Mapped["Platform"] = relationship(back_populates="products")
@@ -57,5 +58,9 @@ class Product(db.Model):
     @staticmethod
     def update_product(product, *args):
         return update_item(product, *args)
+
+    @staticmethod
+    def delete_product(product):
+        return delete_item(product)
 
 

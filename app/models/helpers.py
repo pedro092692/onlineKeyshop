@@ -24,3 +24,8 @@ def update_item(obj_item, *args):
             setattr(obj_item, column.name, args[i - 1])
         i += 1
     db.session.commit()
+
+def delete_item(obj_item):
+    db.session.delete(obj_item)
+    db.session.commit()
+
