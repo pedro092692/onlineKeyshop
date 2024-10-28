@@ -3,6 +3,7 @@ from app.forms.admin.add_products import AddProduct
 from app.forms.admin.update_product_form import UpdateProduct
 from app.forms.admin.add_category_form import AddCategory as SimpleForm
 from app.forms.admin.add_subcategory_form import SubcategoryForm
+from app.forms.admin.add_new_key_form import AddKey
 from app.models.category import Category
 from app.models.sub_category import SubCategory
 from app.models.platforms import Platform
@@ -55,27 +56,40 @@ def add_product():
 @bp.route('/product/<product_id>', methods=['GET', 'POST'])
 def product_info(product_id):
     product = Product.get_product(product_id)
-    form = UpdateProduct()
+    form_product = UpdateProduct()
     # fill dynamic form choices
-    fill_form_product(form)
-    if form.validate_on_submit():
-        product_name = form.name.data
-        category_id = form.product_category.data
-        subcategory_id = form.product_subcategory.data
-        platform_id = form.product_platform.data
+    fill_form_product(form_product)
+    if form_product.submit.data and form_product.validate():
+        product_name = form_product.name.data
+        category_id = form_product.product_category.data
+        subcategory_id = form_product.product_subcategory.data
+        platform_id = form_product.product_platform.data
         # update product
         Product.update_product(product, product_name,
+                               platform_id,
                                category_id,
-                               subcategory_id,
-                               platform_id)
+                               subcategory_id
+                               )
         return redirect(url_for('admin.products'))
 
-    form.name.data = product.name
-    form.product_category.data = product.category_id
-    form.product_platform.data = product.platform_id
-    form.product_subcategory.data = product.sub_category_id
+    form_product.name.data = product.name
+    form_product.product_category.data = product.category_id
+    form_product.product_platform.data = product.platform_id
+    form_product.product_subcategory.data = product.sub_category_id
 
-    return render_template('admin/products/product.html', form=form)
+    # new key product form
+    form_key = AddKey()
+
+    if form_key.submit.data and form_key.validate():
+        product_key = form_key.key_value.data
+        key_price = form_key.price.data
+        # add new key
+        new_key = Key.add_key(Key, product_key, 0, key_price)
+        # add new product key
+        ProductKeys.add_new_product_key(ProductKeys, product.id, new_key.id)
+        return redirect(url_for('admin.products'))
+
+    return render_template('admin/products/product.html', form=form_product, form_key=form_key)
 
 # categories
 @bp.route('/categories')

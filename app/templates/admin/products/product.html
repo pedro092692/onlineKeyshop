@@ -13,8 +13,27 @@
 <!-- content-->
  {% block content %}
     <div class="card">
+        <!--                add new key for this product-->
+                <div class="card card-success mb-4">
+                      <div class="card-header">
+                        <h3 class="card-title">Add new product key for this product</h3>
+                      </div>
+                      <div class="card-body">
+                          <form method="POST">
+                            {{ form_key.csrf_token }}
+                            <br>
+                            {{ form_key.key_value(class_="form-control", placeholder="New Key Value") }}
+                            <br>
+                            {{ form_key.price(class_="form-control", placeholder="Key Price") }}
+                            <br>
+                            {{ form_key.submit(class_="btn btn-primary") }}
+                          </form>
+                      </div>
+                </div>
         <form method="POST">
             <div class="card-body">
+
+<!--                    product info form-->
                     {{ form.csrf_token }}
                     {% for field_name, field in form._fields.items() %}
                         {% if field_name != 'csrf_token' and field_name != 'submit' %}
