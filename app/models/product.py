@@ -20,7 +20,7 @@ class Product(db.Model):
 
     @staticmethod
     def get_products():
-        all_products = db.session.execute(db.select(Product).order_by(Product.id.desc())).scalars().all()
+        all_products = db.paginate(db.select(Product).order_by(Product.id.desc()), per_page=8)
         return all_products
 
     @staticmethod

@@ -96,7 +96,6 @@ def product_info(product_id):
 def delete_product(product_id):
     product = Product.get_product(product_id)
     Product.delete_product(product)
-
     return redirect(url_for('admin.products'))
 
 

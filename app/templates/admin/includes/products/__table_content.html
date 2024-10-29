@@ -1,3 +1,5 @@
+{% from 'admin/helpers/render_pagination.html' import render_pagination %}
+
 <div class="col-12">
         <div class="card">
           <div class="card-header">
@@ -37,6 +39,11 @@
             </table>
           </div>
           <!-- /.card-body -->
+            <!--Pagination-->
+            {% if products.pages > 1 %}
+                {{render_pagination(products, request.endpoint )}}
+            {% endif %}
+
         </div>
         <!-- /.card -->
     </div>
