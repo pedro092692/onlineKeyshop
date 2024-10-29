@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request
 from app.forms.admin.add_products import AddProduct
 from app.forms.admin.update_product_form import UpdateProduct
-from app.forms.admin.add_category_form import AddCategory as SimpleForm
+from app.forms.admin.add_category_form import AddCategory as SimpleForm, AddCategory
 from app.forms.admin.add_subcategory_form import SubcategoryForm
 from app.forms.admin.add_new_key_form import AddKey
 from app.models.category import Category
@@ -137,6 +137,26 @@ def add_category():
         Category.add_category(Category, category_name)
         return redirect(url_for('admin.categories'))
     return render_template('admin/categories/add-category.html', form=form)
+
+@bp.route('/category/<category_id>', methods=['GET', 'POST'])
+def category_info(category_id):
+    category = Category.get_category(category_id)
+    form = AddCategory()
+    if form.validate_on_submit():
+        category_name = form.name.data
+        Category.update_category(category, category_name)
+        return redirect(url_for('admin.categories'))
+    # fill form
+    form.name.data = category.name
+    form.submit.label.text = 'Update Category'
+
+    return render_template('admin/categories/category.html', form=form, category=category)
+
+@bp.route('/category/delete/<category_id>', methods=['POST'])
+def delete_category(category_id):
+    category = Category.get_category(category_id)
+    Category.delete_category(category)
+    return redirect(url_for('admin.categories'))
 
 #subcategories
 @bp.route('/subcategories')

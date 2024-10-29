@@ -1,7 +1,7 @@
 from app.extensions import *
 from app.models.product import Product
 from app.models.product_keys import ProductKeys
-from app.models.helpers import add_item, search_item
+from app.models.helpers import add_item, search_item, get_item, update_item, delete_item
 
 
 class Category(db.Model):
@@ -28,7 +28,7 @@ class Category(db.Model):
 
     @staticmethod
     def categories():
-        categories = db.session.execute(db.select(Category).order_by(Category.id.asc())).scalars().all()
+        categories = db.paginate(db.select(Category).order_by(Category.id.asc()), per_page=8)
         return categories
 
 
@@ -40,4 +40,14 @@ class Category(db.Model):
     def search_category(query):
         return search_item(query, Category)
 
+    @staticmethod
+    def get_category(category_id):
+        return get_item(Category, category_id)
 
+    @staticmethod
+    def update_category(category, *args):
+        return update_item(category, *args)
+
+    @staticmethod
+    def delete_category(category):
+        return delete_item(category)

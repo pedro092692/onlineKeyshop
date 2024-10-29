@@ -1,0 +1,47 @@
+ {% extends 'admin/base.html' %}
+
+ {% block title %}
+    Update Category
+ {% endblock title %}
+
+<!--header_name-->
+{% block header_name %}
+    Update Category
+{% endblock header_name %}
+
+
+<!-- content-->
+ {% block content %}
+    <div class="card">
+        <!-- add new key for this product-->
+        <form method="POST" data-turbo="false">
+            <div class="card-body">
+        <!--product info form-->
+                    {{ form.csrf_token }}
+                    {% for field_name, field in form._fields.items() %}
+                        {% if field_name != 'csrf_token' and field_name != 'submit' %}
+                            <div class="form-group">
+                                <label for="{{ field.id }}">{{ field.label }}</label>
+                                    {{ field(class_="form-control") }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+            </div>
+            <div class="card-footer">
+              {{ form.submit(class_="btn btn-primary") }}
+            </div>
+        </form>
+     </div>
+    <div class="card card-danger">
+          <div class="card-header">
+            <h3 class="card-title">Delete This Category</h3>
+          </div>
+          <div class="card-body">
+              <form action="{{ url_for('admin.delete_category', category_id=category.id) }}" method="POST" data-turbo="false">
+                  {{ form.csrf_token }}
+                  <button type="submit" class="btn btn-danger">Delete This Category</button>
+              </form>
+          </div>
+          <!-- /.card-body -->
+    </div>
+ {% endblock content %}

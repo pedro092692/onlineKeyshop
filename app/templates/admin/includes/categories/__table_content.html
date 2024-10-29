@@ -1,3 +1,4 @@
+{% from 'admin/helpers/render_pagination.html' import render_pagination %}
 <turbo-frame id="category-list">
 <div class="col-12">
         <div class="card">
@@ -27,13 +28,22 @@
               <tbody>
                 {% for category in categories %}
                   <tr>
-                      <td>{{ category.name|capitalize }}</td>
+                    <td>
+                      <a class="cursor-pointer text-dark"
+                         href="{{ url_for('admin.category_info', category_id=category.id) }}" data-turbo="false">
+                        {{ category.name|capitalize }}
+                      </a>
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
           <!-- /.card-body -->
+          <!--Pagination-->
+            {% if categories.pages > 1 %}
+                {{render_pagination(categories, request.endpoint )}}
+            {% endif %}
         </div>
         <!-- /.card -->
     </div>
