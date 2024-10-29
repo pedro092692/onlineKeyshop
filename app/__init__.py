@@ -4,7 +4,7 @@ from config import Config
 from app.extensions import db
 from app.database import DataBase
 from app.extensions import CSRFProtect
-from app.extensions import login_manager
+from app.extensions import login_manager, turbo
 from app.models.user import User
 
 def create_app(config_class=Config):
@@ -24,6 +24,9 @@ def create_app(config_class=Config):
     @login_manager.user_loader
     def load_user(user_id):
         return User.get_user_id(user_id)
+
+    #turbo flask
+    turbo.init_app(app)
 
     #csrf
     CSRFProtect(app)

@@ -64,3 +64,13 @@ class Product(db.Model):
         return delete_item(product)
 
 
+    @staticmethod
+    def search_product(query):
+        products = db.paginate(db.select(Product).filter(
+            Product.name.icontains(query)
+        ).order_by(Product.name), per_page=8)
+
+        return products
+
+
+

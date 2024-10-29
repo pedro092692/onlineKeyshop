@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from app.forms.admin.add_products import AddProduct
 from app.forms.admin.update_product_form import UpdateProduct
 from app.forms.admin.add_category_form import AddCategory as SimpleForm
@@ -10,7 +10,7 @@ from app.models.platforms import Platform
 from app.models.product import Product
 from app.models.key import Key
 from app.models.product_keys import ProductKeys
-from app.extensions import generate_password_hash
+from app.extensions import generate_password_hash, turbo
 from app.blueprints.admin import bp
 
 
@@ -19,9 +19,29 @@ def index():
     return render_template('admin/index.html')
 
 # products
-@bp.route('/products')
+@bp.route('/products', methods=['GET', 'POST'])
 def products():
     all_products = Product.get_products()
+
+    if request.method == 'POST':
+        product_query = request.form.get('product_search')
+        if product_query != '':
+            print('here in ')
+            search_results = Product.search_product(product_query)
+            if turbo.can_stream():
+                return turbo.stream([
+                    turbo.update(render_template('admin/includes/products/__table_content.html',
+                                                 products=search_results), target='product-list')
+                ])
+
+
+
+    if turbo.can_stream():
+        return turbo.stream([
+            turbo.update(render_template('admin/includes/products/__table_content.html',
+                                            products=all_products), target='product-list')
+        ])
+
     return render_template('admin/products/index.html', products=all_products)
 
 @bp.route('/add-product', methods=['GET', 'POST'])

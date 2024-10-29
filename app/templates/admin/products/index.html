@@ -12,7 +12,9 @@
 
 <!--table-content-->
 {% block table_content %}
-    {% include 'admin/includes/products/__table_content.html' %}
+    <div class="col-12" id="table-content">
+        {% include 'admin/includes/products/__table_content.html' %}
+    </div>
 {% endblock table_content %}
 
 

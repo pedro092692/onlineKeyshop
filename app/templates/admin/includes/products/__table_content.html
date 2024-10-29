@@ -1,16 +1,19 @@
 {% from 'admin/helpers/render_pagination.html' import render_pagination %}
-
+<turbo-frame id="product-list">
 <div class="col-12">
         <div class="card">
           <div class="card-header">
             <div class="card-tools float-left">
               <div class="input-group input-group-sm">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search Products">
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-default">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
+                  <form method="POST" class="input-group input-group mt-2 mb-2" id="search_form">
+                      <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <input type="text" name="product_search" class="form-control float-right" placeholder="Search Products">
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </form>
               </div>
             </div>
           </div>
@@ -28,7 +31,8 @@
               <tbody>
                 {% for product in products %}
                     <tr>
-                        <td><a class="cursor-pointer text-dark" href="{{ url_for('admin.product_info', product_id=product.id) }}">
+                        <td><a class="cursor-pointer text-dark" data-turbo="false"
+                               href="{{ url_for('admin.product_info', product_id=product.id) }}">
                           {{ product.name|capitalize }}</a></td>
                         <td>{{ product.platform.name|capitalize }}</td>
                         <td>{{ product.category.name|capitalize }}</td>
@@ -47,3 +51,4 @@
         </div>
         <!-- /.card -->
     </div>
+</turbo-frame>
