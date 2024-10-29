@@ -10,6 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from turbo_flask import Turbo
 from dotenv import load_dotenv
 
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = "security.login"

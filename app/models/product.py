@@ -1,4 +1,3 @@
-from sqlalchemy import delete
 from sqlalchemy.orm import relationship
 from app.extensions import *
 from app.models.helpers import add_item, get_item, update_item, delete_item
@@ -66,8 +65,9 @@ class Product(db.Model):
 
     @staticmethod
     def search_product(query):
-        products = db.paginate(db.select(Product).filter(
-            Product.name.icontains(query)
+        from app.models.platforms import Platform
+        products = db.paginate(db.select(Product).join(Product.platform).filter(
+            Product.name.icontains(query) | Platform.name.icontains(query)
         ).order_by(Product.name), per_page=8)
 
         return products
