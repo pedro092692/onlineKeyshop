@@ -29,3 +29,7 @@ def delete_item(obj_item):
     db.session.delete(obj_item)
     db.session.commit()
 
+def search_item(query, model):
+    results = db.paginate(db.select(model).filter(model.name.icontains(query)), per_page=8)
+    return results
+

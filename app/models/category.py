@@ -1,7 +1,7 @@
 from app.extensions import *
 from app.models.product import Product
 from app.models.product_keys import ProductKeys
-from app.models.helpers import add_item
+from app.models.helpers import add_item, search_item
 
 
 class Category(db.Model):
@@ -36,5 +36,8 @@ class Category(db.Model):
     def add_category(model, *args):
         return add_item(model, *args)
 
+    @staticmethod
+    def search_category(query):
+        return search_item(query, Category)
 
 

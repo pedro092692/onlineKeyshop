@@ -22,19 +22,16 @@ def index():
 @bp.route('/products', methods=['GET', 'POST'])
 def products():
     all_products = Product.get_products()
-
+    # search products
     if request.method == 'POST':
         product_query = request.form.get('product_search')
         if product_query != '':
-            print('here in ')
             search_results = Product.search_product(product_query)
             if turbo.can_stream():
                 return turbo.stream([
                     turbo.update(render_template('admin/includes/products/__table_content.html',
                                                  products=search_results), target='product-list')
                 ])
-
-
 
     if turbo.can_stream():
         return turbo.stream([
@@ -68,8 +65,6 @@ def add_product():
         ProductKeys.add_new_product_key(ProductKeys, new_product.id, new_key.id)
 
         return redirect(url_for('admin.products'))
-
-
 
     return render_template('admin/products/add-product.html', form=form)
 
@@ -118,11 +113,20 @@ def delete_product(product_id):
     Product.delete_product(product)
     return redirect(url_for('admin.products'))
 
-
 # categories
-@bp.route('/categories')
+@bp.route('/categories', methods=['GET', 'POST'])
 def categories():
     all_categories = Category.categories()
+    # search products
+    if request.method == 'POST':
+        category_query = request.form.get('category_search')
+        if category_query != '':
+            search_results = Category.search_category(category_query)
+            if turbo.can_stream():
+                return turbo.stream([
+                    turbo.update(render_template('admin/includes/categories/__table_content.html',
+                                                 categories=search_results), target='category-list')
+                ])
     return render_template('admin/categories/index.html', categories=all_categories)
 
 @bp.route('/add-category', methods=['GET', 'POST'])
@@ -193,3 +197,5 @@ def fill_form_product(form):
     form.product_subcategory.choices = ([(0, 'Select One')] +
                                         [(subcategory.id, subcategory.name) for subcategory in all_subcategories])
     form.product_platform.choices = [(0, 'Select One')] + [(platform.id, platform.name) for platform in all_platforms]
+
+

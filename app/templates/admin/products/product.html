@@ -19,7 +19,7 @@
                         <h3 class="card-title">Add new product key for this product</h3>
                       </div>
                       <div class="card-body">
-                          <form method="POST">
+                          <form method="POST" data-turbo="false">
                             {{ form_key.csrf_token }}
                             <br>
                             {{ form_key.key_value(class_="form-control", placeholder="New Key Value") }}
@@ -30,7 +30,7 @@
                           </form>
                       </div>
                 </div>
-        <form method="POST">
+        <form method="POST" data-turbo="false">
             <div class="card-body">
         <!--product info form-->
                     {{ form.csrf_token }}
@@ -65,7 +65,7 @@
             <h3 class="card-title">Delete This Product</h3>
           </div>
           <div class="card-body">
-              <form action="{{ url_for('admin.delete_product', product_id=product.id) }}" method="POST">
+              <form action="{{ url_for('admin.delete_product', product_id=product.id) }}" method="POST" data-turbo="false">
                   {{ form.csrf_token }}
                   <button type="submit" class="btn btn-danger">Delete This Product</button>
               </form>
