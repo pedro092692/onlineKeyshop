@@ -116,8 +116,8 @@ def delete_product(product_id):
 # categories
 @bp.route('/categories', methods=['GET', 'POST'])
 def categories():
-    all_categories = Category.categories()
-    # search products
+    all_categories = Category.categories_paginate()
+    # search category
     if request.method == 'POST':
         category_query = request.form.get('category_search')
         if category_query != '':
@@ -159,9 +159,19 @@ def delete_category(category_id):
     return redirect(url_for('admin.categories'))
 
 #subcategories
-@bp.route('/subcategories')
+@bp.route('/subcategories', methods=['GET', 'POST'])
 def subcategories():
-    all_subcategories = SubCategory.subcategories()
+    all_subcategories = SubCategory.subcategories_paginate()
+    #search subcategory
+    if request.method == 'POST':
+        subcategory_query = request.form.get('subcategory_search')
+        if subcategory_query != '':
+            search_results = SubCategory.search_subcategory(subcategory_query)
+            if turbo.can_stream():
+                return turbo.stream([
+                    turbo.update(render_template('admin/includes/subcategories/__table_content.html',
+                                                 subcategories=search_results), target='subcategory-list')
+                ])
     return render_template('admin/subcategories/index.html', subcategories=all_subcategories)
 
 @bp.route('/add-subcategory', methods=['GET', 'POST'])
@@ -177,6 +187,31 @@ def add_subcategory():
         SubCategory.add_subcategory(SubCategory, category_id, subcategory_name)
         return redirect(url_for('admin.subcategories'))
     return render_template('admin/subcategories/add-subcategory.html', form=form)
+
+@bp.route('/subcategory/<subcategory_id>', methods=['GET', 'POST'])
+def subcategory_info(subcategory_id):
+    subcategory = SubCategory.get_subcategory(subcategory_id)
+    form = SubcategoryForm()
+    categories_ = Category.categories()
+    form.category_id.choices = [(0, 'Select One')] + [(category.id, category.name) for category in categories_]
+    if form.submit.data and form.validate():
+        subcategory_name = form.name.data
+        category_id = form.category_id.data
+        #update subcategory
+        SubCategory.update_subcategory(subcategory, category_id, subcategory_name)
+        return redirect(url_for('admin.subcategories'))
+
+    #fill form to update subcategory
+    form.name.data = subcategory.name
+    form.category_id.data = subcategory.category_id
+
+    return render_template('admin/subcategories/subcategory.html', subcategory=subcategory, form=form)
+
+@bp.route('/subcategory/delete/<subcategory_id>', methods=['POST'])
+def delete_subcategory(subcategory_id):
+    subcategory = SubCategory.get_subcategory(subcategory_id)
+    SubCategory.delete_subcategory(subcategory)
+    return redirect(url_for('admin.subcategories'))
 
 #platforms
 @bp.route('/platforms')

@@ -27,8 +27,13 @@ class Category(db.Model):
         return categories
 
     @staticmethod
-    def categories():
+    def categories_paginate():
         categories = db.paginate(db.select(Category).order_by(Category.id.asc()), per_page=8)
+        return categories
+
+    @staticmethod
+    def categories():
+        categories = db.session.execute(db.select(Category).order_by(Category.id.asc())).scalars().all()
         return categories
 
 

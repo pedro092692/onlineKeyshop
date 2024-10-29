@@ -1,12 +1,12 @@
  {% extends 'admin/base.html' %}
 
  {% block title %}
-    Update Category
+    Update Subcategory
  {% endblock title %}
 
 <!--header_name-->
 {% block header_name %}
-    Update Category
+    Update Subcategory
 {% endblock header_name %}
 
 
@@ -16,7 +16,7 @@
         <!-- add new key for this product-->
         <form method="POST" data-turbo="false">
             <div class="card-body">
-        <!--category info form-->
+        <!--subcategory info form-->
                     {{ form.csrf_token }}
                     {% for field_name, field in form._fields.items() %}
                         {% if field_name != 'csrf_token' and field_name != 'submit' %}
@@ -34,12 +34,12 @@
      </div>
     <div class="card card-danger">
           <div class="card-header">
-            <h3 class="card-title">Delete This Category</h3>
+            <h3 class="card-title">Delete This Subcategory</h3>
           </div>
           <div class="card-body">
-              <form action="{{ url_for('admin.delete_category', category_id=category.id) }}" method="POST" data-turbo="false">
+              <form action="{{ url_for('admin.delete_subcategory', subcategory_id=subcategory.id) }}" method="POST" data-turbo="false">
                   {{ form.csrf_token }}
-                  <button type="submit" class="btn btn-danger">Delete This Category</button>
+                  <button type="submit" class="btn btn-danger">Delete This Subcategory</button>
               </form>
           </div>
           <!-- /.card-body -->

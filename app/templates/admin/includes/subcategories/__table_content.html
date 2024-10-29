@@ -1,14 +1,20 @@
+{% from 'admin/helpers/render_pagination.html' import render_pagination %}
+<turbo-frame id="subcategory-list">
 <div class="col-12">
         <div class="card">
           <div class="card-header">
             <div class="card-tools float-left">
               <div class="input-group input-group-sm">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search Products">
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-default">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
+                <form method="POST" class="input-group input-group mt-2 mb-2" id="search_form">
+                      <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <input type="text" name="subcategory_search" class="form-control float-right"
+                           placeholder="Search Subcategory">
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </form>
               </div>
             </div>
           </div>
@@ -24,7 +30,10 @@
               <tbody>
                 {% for subcategory in subcategories %}
                   <tr>
-                      <td>{{ subcategory.name|capitalize }}</td>
+                      <td><a class="cursor-pointer text-dark"
+                             data-turbo="false"
+                             href="{{ url_for('admin.subcategory_info', subcategory_id=subcategory.id) }}">
+                        {{ subcategory.name|capitalize }}</a></td>
                       <td>{{ subcategory.category.name|capitalize }}</td>
                   </tr>
                 {% endfor %}
@@ -32,6 +41,11 @@
             </table>
           </div>
           <!-- /.card-body -->
+          <!--Pagination-->
+            {% if subcategories.pages > 1 %}
+                {{render_pagination(subcategories, request.endpoint )}}
+            {% endif %}
         </div>
         <!-- /.card -->
     </div>
+</turbo-frame>
