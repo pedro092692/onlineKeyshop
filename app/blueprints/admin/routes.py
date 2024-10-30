@@ -191,6 +191,34 @@ def add_subcategory():
 @bp.route('/subcategory/<subcategory_id>', methods=['GET', 'POST'])
 def subcategory_info(subcategory_id):
     subcategory = SubCategory.get_subcategory(subcategory_id)
+
+    # form for products
+    product_form = AddProduct()
+
+    # fill form product_choices
+    fill_form_product(product_form)
+
+    product_form.product_category.data = subcategory.category_id
+    product_form.product_subcategory.data = subcategory.id
+
+    if product_form.submit.data and product_form.validate():
+        product_name = product_form.product_name.data
+        subcategory_id = product_form.product_subcategory.data
+        category_id = product_form.product_category.data
+        platform_id = product_form.product_platform.data
+        product_key = product_form.product_key_code.data
+        product_price = product_form.product_price.data
+
+        # add new product
+        new_product = Product.add_product(Product, product_name, platform_id, category_id, subcategory_id)
+        # add new key
+        new_key = Key.add_key(Key, product_key, 0, product_price)
+        # add new product key
+        ProductKeys.add_new_product_key(ProductKeys, new_product.id, new_key.id)
+
+        return redirect(url_for('admin.products'))
+
+
     form = SubcategoryForm()
     categories_ = Category.categories()
     form.category_id.choices = [(0, 'Select One')] + [(category.id, category.name) for category in categories_]
@@ -205,7 +233,10 @@ def subcategory_info(subcategory_id):
     form.name.data = subcategory.name
     form.category_id.data = subcategory.category_id
 
-    return render_template('admin/subcategories/subcategory.html', subcategory=subcategory, form=form)
+    form.submit.label.text = 'Update Subcategory'
+
+    return render_template('admin/subcategories/subcategory.html', subcategory=subcategory, form=form,
+                           product_form=product_form)
 
 @bp.route('/subcategory/delete/<subcategory_id>', methods=['POST'])
 def delete_subcategory(subcategory_id):
