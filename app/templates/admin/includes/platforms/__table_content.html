@@ -1,14 +1,21 @@
+{% from 'admin/helpers/render_pagination.html' import render_pagination %}
+<turbo-frame id="platforms-list">
 <div class="col-12">
         <div class="card">
           <div class="card-header">
             <div class="card-tools float-left">
               <div class="input-group input-group-sm">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search Products">
-                <div class="input-group-append">
-                  <button type="submit" class="btn btn-default">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
+              <!-- search form-->
+                <form method="POST" class="input-group input-group mt-2 mb-2" id="search_form">
+                      <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <input type="text" name="platform_search" class="form-control float-right"
+                           placeholder="Search Platform">
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </form>
               </div>
             </div>
           </div>
@@ -23,13 +30,23 @@
               <tbody>
                 {% for platform in platforms %}
                   <tr>
-                      <td>{{ platform.name|capitalize }}</td>
+                      <td>
+                        <a href="{{ url_for('admin.platform_info', platform_id=platform.id) }}"
+                           class="cursor-pointer text-dark" data-turbo="false">
+                          {{ platform.name|capitalize }}
+                        </a>
+                      </td>
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
           <!-- /.card-body -->
+          <!--Pagination-->
+            {% if platforms.pages > 1 %}
+                {{render_pagination(platforms, request.endpoint )}}
+            {% endif %}
         </div>
         <!-- /.card -->
     </div>
+</turbo-frame>

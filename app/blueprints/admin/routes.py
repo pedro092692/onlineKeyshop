@@ -206,7 +206,7 @@ def subcategory_info(subcategory_id):
         subcategory_id = product_form.product_subcategory.data
         category_id = product_form.product_category.data
         platform_id = product_form.product_platform.data
-        product_key = product_form.product_key_code.data
+        product_key = generate_password_hash(product_form.product_key_code.data, method='pbkdf2:sha256', salt_length=8)
         product_price = product_form.product_price.data
 
         # add new product
@@ -245,9 +245,19 @@ def delete_subcategory(subcategory_id):
     return redirect(url_for('admin.subcategories'))
 
 #platforms
-@bp.route('/platforms')
+@bp.route('/platforms', methods=['GET', 'POST'])
 def platforms():
-    all_platforms = Platform.platforms()
+    all_platforms = Platform.platforms_paginate()
+    if request.method == 'POST':
+        platform_query = request.form.get('platform_search')
+        if platform_query != '':
+            all_platforms = Platform.search_platform(platform_query)
+            if turbo.can_stream():
+                return turbo.stream([
+                    turbo.update(render_template('admin/includes/platforms/__table_content.html',
+                                                 platforms=all_platforms), target='platforms-list')
+                ])
+
     return render_template('admin/platforms/index.html', platforms=all_platforms)
 
 @bp.route('/add-platform', methods=['GET', 'POST'])
@@ -263,6 +273,29 @@ def add_platform():
         return redirect(url_for('admin.platforms'))
 
     return render_template('admin/platforms/add-platform.html', form=form)
+
+@bp.route('/platform/<platform_id>', methods=['GET', 'POST'])
+def platform_info(platform_id):
+    platform = Platform.get_platform(platform_id)
+    form = SimpleForm()
+    # config form
+    form.name.label = 'Platform Name'
+    form.submit.label.text = 'Update Platform'
+
+    if form.validate_on_submit():
+        platform_name = form.name.data
+        Platform.update_platform(platform, platform_name)
+        return redirect(url_for('admin.platforms'))
+
+    form.name.data = platform.name
+
+    return render_template('admin/platforms/platform.html', platform=platform, form=form)
+
+@bp.route('/platform/delete/<platform_id>', methods=['POST'])
+def delete_platform(platform_id):
+    platform_obj = Platform.get_platform(platform_id)
+    Platform.delete_platform(platform_obj)
+    return redirect(url_for('admin.platforms'))
 
 #keys
 @bp.route('/keys')
