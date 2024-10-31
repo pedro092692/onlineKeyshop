@@ -3,7 +3,7 @@ from app.blueprints.security import bp
 from app.forms.login import LoginForm
 from app.forms.register import RegisterForm
 from app.models.user import User
-from app.extensions import generate_password_hash, check_password_hash, login_user
+from app.extensions import generate_password_hash, check_password_hash, login_user, logout_user
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -44,3 +44,9 @@ def register():
 
 
     return render_template('security/register.html', form=register_form)
+
+
+@bp.route('/logout', methods=['GET'])
+def logout():
+    logout_user()
+    return redirect(url_for('main.home'))
