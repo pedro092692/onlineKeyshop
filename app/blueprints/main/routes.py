@@ -9,7 +9,8 @@ def home():
     latest_products = Product.latest_products()
     return render_template('index.html', form=login_form, last_products=latest_products)
 
-@bp.route('/product')
-def product():
-    return 'this is the product page'
+@bp.route('/product/<slug>')
+def product(slug):
+    product_item = Product.search_product_slug(slug)
+    return render_template('product.html', product=product_item)
 

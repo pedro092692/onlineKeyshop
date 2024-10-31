@@ -9,7 +9,7 @@ from flask_login import LoginManager, UserMixin, current_user, login_user, logou
 from werkzeug.security import generate_password_hash, check_password_hash
 from turbo_flask import Turbo
 from dotenv import load_dotenv
-
+from slugify import slugify
 
 db = SQLAlchemy()
 login_manager = LoginManager()

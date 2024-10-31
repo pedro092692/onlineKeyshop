@@ -1,0 +1,65 @@
+<section class="bg-light">
+        <div class="container pb-5">
+            <div class="row">
+                <div class="col-lg-5 mt-5">
+                    <div class="card mb-3">
+                        <img class="card-img img-fluid" src="{{ product.img_url }}" alt="Card image cap" id="product-detail">
+                    </div>
+                </div>
+                <!-- col end -->
+                <div class="col-lg-7 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="h2">{{ product.name }}</h1>
+                            {% if product.product_keys %}
+                                <p class="h3 py-2">Price: ${{ product.product_keys[0].key_info.price }}</p>
+                            {% endif %}
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Platform:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>{{ product.platform.name }}</strong></p>
+                                </li>
+                            </ul>
+
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Category:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>{{ product.category.name }}</strong></p>
+                                </li>
+                            </ul>
+
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Subcategory:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>{{ product.sub_category.name }}</strong></p>
+                                </li>
+                            </ul>
+                            <form action="" method="GET">
+                                <div class="row pb-3">
+                                    {% if product.product_keys %}
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                        </div>
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                        </div>
+                                    {% else %}
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-warning btn-lg" name="submit"  disabled>Sold out</button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+<!--title-->
+{% block title %}
+    pyKeys {{ product.name }}
+{% endblock title %}
+
+{% block content %}
+<!-- Open Content -->
+    {% include 'includes/product/content.html' %}
+<!-- Close Content -->
+{% endblock content %}

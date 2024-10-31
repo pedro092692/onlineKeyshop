@@ -74,5 +74,14 @@ class Product(db.Model):
 
         return products
 
+    @staticmethod
+    def search_product_slug(slug):
+        product = db.first_or_404(db.select(Product).filter_by(slug=slug))
+        return product
+
+    @staticmethod
+    def check_slug(slug):
+        return Product.query.filter_by(slug=slug).first()
+
 
 
