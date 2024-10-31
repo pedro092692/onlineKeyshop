@@ -30,7 +30,7 @@ class Product(db.Model):
             .filter_by(category_id=1)
             .join(Product.product_keys)
             .order_by(Product.id.desc())
-            .limit(5)
+            .limit(6)
             .all()
         )
         return latest_product

@@ -53,12 +53,13 @@ def add_product():
         platform_id = form.product_platform.data
         category_id = form.product_category.data
         subcategory_id = form.product_subcategory.data
+        img_url = form.image_url.data
         #key info
         product_key =  generate_password_hash(password=form.product_key_code.data, method='pbkdf2:sha256', salt_length=8)
         product_price = form.product_price.data
 
         # add new product
-        new_product = Product.add_product(Product, product_name, platform_id, category_id, subcategory_id)
+        new_product = Product.add_product(Product, product_name, platform_id, category_id, subcategory_id, img_url)
         # add new key
         new_key = Key.add_key(Key, product_key, 0, product_price)
         # add new product key
@@ -79,11 +80,13 @@ def product_info(product_id):
         category_id = form_product.product_category.data
         subcategory_id = form_product.product_subcategory.data
         platform_id = form_product.product_platform.data
+        img_url = form_product.image_url.data
         # update product
         Product.update_product(product, product_name,
                                platform_id,
                                category_id,
-                               subcategory_id
+                               subcategory_id,
+                               img_url
                                )
         return redirect(url_for('admin.products'))
 
@@ -91,6 +94,7 @@ def product_info(product_id):
     form_product.product_category.data = product.category_id
     form_product.product_platform.data = product.platform_id
     form_product.product_subcategory.data = product.sub_category_id
+    form_product.image_url.data = product.img_url
 
     # new key product form
     form_key = AddKey()
