@@ -16,7 +16,7 @@ from app.blueprints.admin import bp
 
 @bp.route('/')
 def index():
-    return render_template('admin/index.html')
+    return redirect(url_for('admin.products'))
 
 # products
 @bp.route('/products', methods=['GET', 'POST'])

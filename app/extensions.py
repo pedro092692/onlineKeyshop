@@ -10,6 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from turbo_flask import Turbo
 from dotenv import load_dotenv
 from slugify import slugify
+import paypalrestsdk as paypal
 
 db = SQLAlchemy()
 login_manager = LoginManager()

@@ -40,14 +40,15 @@
                                     <p class="text-muted"><strong>{{ product.sub_category.name }}</strong></p>
                                 </li>
                             </ul>
-                            <form action="" method="GET">
                                 <div class="row pb-3">
                                     {% if product.product_keys %}
                                         <div class="col d-grid">
-                                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
-                                        </div>
-                                        <div class="col d-grid">
-                                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                            <form action="{{ url_for('main.pay', product_id=product.id) }}" method="POST">
+                                                {{ form.csrf_token }}
+                                                {{ form.amount }}
+                                                {{ form.product_id }}
+                                                {{ form.submit(class_='form-control btn btn-primary') }}
+                                            </form>
                                         </div>
                                     {% else %}
                                         <div class="col d-grid">
@@ -55,7 +56,6 @@
                                         </div>
                                     {% endif %}
                                 </div>
-                            </form>
 
                         </div>
                     </div>

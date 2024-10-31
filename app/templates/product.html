@@ -10,3 +10,12 @@
     {% include 'includes/product/content.html' %}
 <!-- Close Content -->
 {% endblock content %}
+
+<!--js-->
+{% block js %}
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AfY7pJs8lrv4pBjDr4n4KOWUT0A_lA18LedigNtOrgTYBvNuqHKN3VICbkSGNA2bHKoHpdng7RQzii5a&buyer-country=US&currency=USD&components=buttons&disable-funding=venmo,paylater,card"
+        data-sdk-integration-source="developer-studio"
+    ></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock js %}

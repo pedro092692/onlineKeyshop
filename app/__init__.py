@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_migrate import Migrate
 from config import Config
-from app.extensions import db
+from app.extensions import db, paypal
 from app.database import DataBase
 from app.extensions import CSRFProtect
 from app.extensions import login_manager, turbo
 from app.models.user import User
+import os
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -27,6 +28,13 @@ def create_app(config_class=Config):
 
     #turbo flask
     turbo.init_app(app)
+
+    #paypal
+    paypal.configure({
+        "mode": "sandbox", #change live to production
+        "client_id": os.environ.get('PAYPAL_CLIENT_ID'),
+        "client_secret": os.environ.get('PAYPAL_CLIENT_SECRET')
+    })
 
     #csrf
     CSRFProtect(app)
