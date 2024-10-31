@@ -12,6 +12,7 @@ class Product(db.Model):
     platform_id: Mapped[int] = mapped_column(Integer, ForeignKey("platforms.id", ondelete="CASCADE"))
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id", ondelete="CASCADE"))
     sub_category_id: Mapped[int] = mapped_column(Integer, ForeignKey("sub_categories.id", ondelete="CASCADE"))
+    img_url: Mapped[str] = mapped_column(String, nullable=True)
     product_keys: Mapped[List["ProductKeys"]] = relationship(back_populates="product_info", cascade="all,delete")
     category: Mapped["Category"] = relationship()
     sub_category: Mapped["SubCategory"] = relationship(back_populates="products")

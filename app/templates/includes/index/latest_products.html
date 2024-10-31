@@ -1,0 +1,33 @@
+<section class="bg-light">
+        <div class="container py-5">
+            <div class="row text-center py-3">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1">Last Products</h1>
+                    <p>
+                        Enjoy a wide variety of video games for your favorite platforms at pyKyes
+                        you will find a game that suits your tastes we have hundreds of options
+                        at the best prices at your disposal these are the latest products added to the
+                        system.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+<!--                last products-->
+                {% for product in last_products %}
+                    <div class="col-12 col-md-4 mb-4">
+                        <div class="card h-100">
+                            <a href="shop-single.html">
+                                <img src="{{ url_for('static', filename='assets/img/feature_prod_01.jpg') }}" class="card-img-top" alt="...">
+                            </a>
+                            <div class="card-body">
+                                <ul class="list-unstyled d-flex justify-content-between">
+                                    <li class="text-muted text-right">${{ product.product_keys[0].key_info.price }}</li>
+                                </ul>
+                                <a href="shop-single.html" class="h2 text-decoration-none text-dark">{{ product.name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>

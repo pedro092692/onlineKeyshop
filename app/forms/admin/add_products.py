@@ -9,4 +9,5 @@ class AddProduct(FlaskForm):
     product_key_code = StringField(label='Product Key Code', validators=[DataRequired()])
     product_price =  DecimalField(label='Product Price', validators=[DataRequired()],
                                render_kw={'placeholder': 'Product Price'})
+    image_url = StringField(label='Image Url', validators=[DataRequired(), URL()], render_kw={'placeholder': 'Image URL'})
     submit = SubmitField(label='Add Product')
