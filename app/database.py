@@ -7,6 +7,7 @@ from app.models.category import Category
 from app.models.product import Product
 from app.models.sub_category import SubCategory
 from app.models.product_keys import ProductKeys
+from app.models.user_products import UserProduct
 from app.extensions import generate_password_hash
 
 
