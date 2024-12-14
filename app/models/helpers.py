@@ -1,5 +1,6 @@
 from app.extensions import db, slugify
 
+
 def add_item(model, *args):
     new_item = model()
     i = 0

@@ -19,8 +19,8 @@ class User(db.Model, UserMixin):
         return user
 
     @staticmethod
-    def add_new_user(model, *args):
-        return add_item(model, *args)
+    def add_new_user(*args):
+        return add_item(User, *args)
 
     @staticmethod
     def get_user_id(user_id):

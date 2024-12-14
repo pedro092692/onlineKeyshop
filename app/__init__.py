@@ -8,6 +8,7 @@ from app.extensions import login_manager, turbo
 from app.models.user import User
 import os
 
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -22,16 +23,17 @@ def create_app(config_class=Config):
 
     # login_manager
     login_manager.init_app(app)
+
     @login_manager.user_loader
     def load_user(user_id):
         return User.get_user_id(user_id)
 
-    #turbo flask
+    # turbo flask
     turbo.init_app(app)
 
-    #paypal
+    # paypal
     paypal.configure({
-        "mode": "sandbox", #change live to production
+        "mode": "sandbox", # change live to production
         "client_id": os.environ.get('PAYPAL_CLIENT_ID'),
         "client_secret": os.environ.get('PAYPAL_CLIENT_SECRET')
     })

@@ -25,8 +25,8 @@ class DataBase:
             # check if exist admin user if not create admin user
             if not User.get_user_id(user_id=1):
                 User.add_new_user(
-                    username=os.environ.get('ADMIN_USER_EMAIL'),
-                    password=generate_password_hash(password=os.environ.get('ADMIN_PASSWORD'), method='pbkdf2:sha256',
+                    os.environ.get('ADMIN_USER_EMAIL'),
+                    generate_password_hash(password=os.environ.get('ADMIN_PASSWORD'), method='pbkdf2:sha256',
                                                     salt_length=8),
-                    role='admin'
+                    'admin'
                 )
